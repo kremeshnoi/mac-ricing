@@ -38,7 +38,7 @@ pgf is cloned into `~/.local/src/pgf` and linked into `~/.local/bin`; `install.s
 
 herdr comes from Homebrew and is pinned there; `install.sh` warns when its version differs from `shared/herdr/versions.toml`, which nix-darwin and NixOS build from, and installs reviewr at the tag from the same file. On this Mac `~/.config/herdr/config.toml` is a generated copy of `herdr/config.toml` with `herdr/space-colors/sidebar.toml` appended, since herdr reads a single file; run `install.sh` again after editing either. The Mac with Nix gets `herdr/config.toml` alone, without space-colors.
 
-With an age key in `~/.config/sops/age/keys.txt`, `install.sh` decrypts `secrets/secrets.yaml` from dotfiles into `~/.wakatime.cfg` and `~/.config/ngrok/ngrok.yml` with mode 600, the same files sops-nix writes; without a key it skips them.
+With an age key in `~/.config/sops/age/keys.txt`, `install.sh` decrypts `shared/secrets/secrets.yaml` from dotfiles into `~/.wakatime.cfg` and `~/.config/ngrok/ngrok.yml` with mode 600, the same files sops-nix writes; without a key it skips them.
 
 Brewfile and the Nix package lists in dotfiles are kept in sync by hand: a new tool goes into both.
 

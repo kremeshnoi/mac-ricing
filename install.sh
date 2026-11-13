@@ -83,7 +83,7 @@ if [ -f "$ghostty_app" ] && [ ! -L "$ghostty_app" ]; then
 fi
 
 age_key="$HOME/.config/sops/age/keys.txt"
-secrets="$(dirname "$mac")/secrets/secrets.yaml"
+secrets="$shared/secrets/secrets.yaml"
 if [ -r "$age_key" ]; then
   while read -r name target; do
     decrypted="$(SOPS_AGE_KEY_FILE="$age_key" sops -d --extract "[\"$name\"]" "$secrets" </dev/null)"
