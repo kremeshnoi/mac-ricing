@@ -1,0 +1,21 @@
+id = "kremeshnoi.space-colors"
+name = "Space Colors"
+version = "0.1.0"
+min_herdr_version = "0.9.3"
+description = "Group Space sidebar names by the team directory their panes live in"
+platforms = ["macos", "linux"]
+
+[[startup]]
+command = ["python3", "sync.py"]
+
+[[events]]
+on = "workspace.created"
+command = ["python3", "sync.py"]
+
+[[events]]
+on = "workspace.renamed"
+command = ["python3", "sync.py"]
+
+[[events]]
+on = "workspace.focused"
+command = ["python3", "sync.py"]

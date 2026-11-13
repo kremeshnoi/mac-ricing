@@ -1,0 +1,15 @@
+[ui.sidebar.spaces]
+row_gap = 0
+rows = [
+  [
+    "state_icon",
+    { token = "$g_eu1", fg = "#DC9693", bold = true },
+    { token = "$g_eu2", fg = "#67BDB2", bold = true },
+    { token = "$g_nordic", fg = "#8EABE1", bold = true },
+    { token = "$g_core", fg = "#D29F73", bold = true },
+    { token = "$g_infra", fg = "#89B98A", bold = true },
+    { token = "$g_asset_finance", fg = "#D495B2", bold = true },
+    { token = "$g_other", fg = "#BEBEBE", bold = true },
+  ],
+  ["branch", "git_status"],
+]
