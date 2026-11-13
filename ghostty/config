@@ -1,5 +1,28 @@
+font-family = "JetBrainsMono Nerd Font"
+
 background=#000000
-background-opacity=0.80
+foreground=#FFFFFF
+cursor-color=#FFFFFF
+cursor-style=bar
+selection-background=#FFBAF3
+bold-is-bright=true
+palette = 0=#000000
+palette = 1=#FFC4BA
+palette = 2=#33FF00
+palette = 3=#DDDE00
+palette = 4=#B9D7FF
+palette = 5=#FFBAF3
+palette = 6=#00F2F2
+palette = 7=#D0D0D0
+palette = 8=#808080
+palette = 9=#FFC4BA
+palette = 10=#33FF00
+palette = 11=#DDDE00
+palette = 12=#B9D7FF
+palette = 13=#FFBAF3
+palette = 14=#00F2F2
+palette = 15=#FFFFFF
+background-opacity=0.85
 background-blur=16
 
 font-size=16
