@@ -17,6 +17,7 @@ This repo is the `mac` submodule of dotfiles. The Mac with Nix gets these files 
 Brewfile                       packages and casks for the Mac without Nix
 install.sh                     brew bundle, symlinks, herdr plugins, pgf
 zsh/.zshrc                     zsh without home-manager: Homebrew, PATH and plugins around shared/zsh
+helix/hx                       hx wrapper that puts the managed language servers first in PATH
 glazewm/config.yaml            GlazeWM — tiling WM, same setup as on Windows
 glazewm/kill-workspace.sh      quits every app on the focused workspace
 swiftbar/glazewm.sh            SwiftBar plugin showing the active GlazeWM workspace
@@ -38,8 +39,6 @@ pgf is cloned into `~/.local/src/pgf` and linked into `~/.local/bin`; `install.s
 
 herdr comes from Homebrew and is pinned there; `install.sh` warns when its version differs from `shared/herdr/versions.toml`, which nix-darwin and NixOS build from, and installs reviewr at the tag from the same file. On this Mac `~/.config/herdr/config.toml` is a generated copy of `herdr/config.toml` with `herdr/space-colors/sidebar.toml` appended, since herdr reads a single file; run `install.sh` again after editing either. The Mac with Nix gets `herdr/config.toml` alone, without space-colors.
 
-With an age key in `~/.config/sops/age/keys.txt`, `install.sh` decrypts `shared/secrets/secrets.yaml` from dotfiles into `~/.wakatime.cfg` and `~/.config/ngrok/ngrok.yml` with mode 600, the same files sops-nix writes; without a key it skips them.
-
-Brewfile and the Nix package lists in dotfiles are kept in sync by hand: a new tool goes into both.
+Brewfile and the Nix package lists in dotfiles must match; `.github/scripts/packages.py` in dotfiles checks it in CI.
 
 GlazeWM needs Accessibility access (System Settings → Privacy & Security → Accessibility).
