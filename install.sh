@@ -60,6 +60,7 @@ link "$mac/zsh/.zshrc" "$HOME/.zshrc"
 link "$shared/git/config" "$HOME/.config/git/config"
 git lfs install --skip-repo >/dev/null
 link "$shared/helix" "$HOME/.config/helix"
+link "$mac/helix/hx" "$HOME/.local/bin/hx"
 for skill in "$shared"/claude/skills/*/; do
   skill="$(basename "$skill")"
   link "$shared/claude/skills/$skill" "$HOME/.claude/skills/$skill"
@@ -68,7 +69,6 @@ done
 generate "$HOME/.config/herdr/config.toml" "$mac/herdr/config.toml" "$mac/herdr/space-colors/sidebar.toml"
 link "$shared/herdr/reviewr.toml" "$HOME/.config/herdr/plugins/config/persiyanov.reviewr/config.toml"
 link "$shared/herdr/git-review.sh" "$HOME/.local/bin/herdr-git-review"
-link "$shared/herdr/goto.sh" "$HOME/.local/bin/herdr-goto"
 
 link "$mac/glazewm/config.yaml" "$HOME/.glzr/glazewm/config.yaml"
 link "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
@@ -80,30 +80,6 @@ ghostty_app="$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghos
 if [ -f "$ghostty_app" ] && [ ! -L "$ghostty_app" ]; then
   mv "$ghostty_app" "$ghostty_app.backup-$stamp"
   echo "backup  $ghostty_app.backup-$stamp"
-fi
-
-age_key="$HOME/.config/sops/age/keys.txt"
-secrets="$shared/secrets/secrets.yaml"
-if [ -r "$age_key" ]; then
-  while read -r name target; do
-    decrypted="$(SOPS_AGE_KEY_FILE="$age_key" sops -d --extract "[\"$name\"]" "$secrets" </dev/null)"
-    if [ -f "$target" ] && [ ! -L "$target" ] && cmp -s <(printf '%s\n' "$decrypted") "$target"; then
-      echo "ok      $target"
-      continue
-    fi
-    if [ -e "$target" ] || [ -L "$target" ]; then
-      mv "$target" "$target.backup-$stamp"
-      echo "backup  $target.backup-$stamp"
-    fi
-    mkdir -p "$(dirname "$target")"
-    (umask 077 && printf '%s\n' "$decrypted" > "$target")
-    echo "secret  $target"
-  done <<EOF_SECRETS
-wakatime $HOME/.wakatime.cfg
-ngrok $HOME/.config/ngrok/ngrok.yml
-EOF_SECRETS
-else
-  echo "skip    secrets: no age key at $age_key"
 fi
 
 pgf="$HOME/.local/src/pgf"
@@ -120,6 +96,21 @@ if [ -d "$HOME/.local/share/pgf/.git" ]; then
   echo "remove  $HOME/.local/share/pgf"
 fi
 
+intelephense_version=1.18.2
+intelephense="$HOME/.local/share/intelephense"
+if command -v fnm >/dev/null && eval "$(fnm env --shell bash)" && command -v npm >/dev/null; then
+  if [ "$(jq -r .version "$intelephense/node_modules/intelephense/package.json" 2>/dev/null)" = "$intelephense_version" ]; then
+    echo "ok      intelephense $intelephense_version"
+  else
+    npm install --prefix "$intelephense" --no-fund --no-audit --silent "intelephense@$intelephense_version"
+    echo "install intelephense $intelephense_version"
+  fi
+  link "$intelephense/node_modules/.bin/intelephense" "$HOME/.local/bin/intelephense"
+else
+  echo "skip    intelephense: no node from fnm"
+fi
+
+unlink_stale "$HOME/.local/bin/herdr-goto"
 unlink_stale "$HOME/.config/shell/env.sh"
 unlink_stale "$HOME/.config/shell"
 for stale in ohmyzsh zsh-helix-mode fzf-git-branch.zsh; do
