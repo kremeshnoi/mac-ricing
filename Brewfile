@@ -45,6 +45,7 @@ brew "taplo"
 brew "dockerfile-language-server"
 brew "docker-compose-langserver"
 brew "rust-analyzer"
+brew "phpantom-lsp"
 
 cask "glzr-io/tap/glazewm"
 cask "swiftbar"

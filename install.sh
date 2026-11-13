@@ -96,19 +96,8 @@ if [ -d "$HOME/.local/share/pgf/.git" ]; then
   echo "remove  $HOME/.local/share/pgf"
 fi
 
-intelephense_version=1.18.2
-intelephense="$HOME/.local/share/intelephense"
-if command -v fnm >/dev/null && eval "$(fnm env --shell bash)" && command -v npm >/dev/null; then
-  if [ "$(jq -r .version "$intelephense/node_modules/intelephense/package.json" 2>/dev/null)" = "$intelephense_version" ]; then
-    echo "ok      intelephense $intelephense_version"
-  else
-    npm install --prefix "$intelephense" --no-fund --no-audit --silent "intelephense@$intelephense_version"
-    echo "install intelephense $intelephense_version"
-  fi
-  link "$intelephense/node_modules/.bin/intelephense" "$HOME/.local/bin/intelephense"
-else
-  echo "skip    intelephense: no node from fnm"
-fi
+unlink_stale "$HOME/.local/bin/intelephense"
+rm -rf "$HOME/.local/share/intelephense"
 
 unlink_stale "$HOME/.local/bin/herdr-goto"
 unlink_stale "$HOME/.config/shell/env.sh"
