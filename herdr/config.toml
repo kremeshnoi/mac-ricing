@@ -1,6 +1,7 @@
 onboarding = false
 
 [keys]
+prefix = "ctrl+z"
 previous_tab = "alt+h"
 next_tab = "alt+l"
 previous_agent = "alt+shift+k"
@@ -8,15 +9,9 @@ next_agent = "alt+shift+j"
 previous_workspace = "alt+k"
 next_workspace = "alt+j"
 focus_pane_left = "alt+shift+h"
+focus_pane_down = "prefix+down"
+focus_pane_up = "prefix+up"
 focus_pane_right = "alt+shift+l"
-
-[[keys.command]]
-key = "alt+shift+f"
-type = "popup"
-command = "~/.local/bin/herdr-goto"
-width = "80%"
-height = "70%"
-description = "goto"
 
 [[keys.command]]
 key = "alt+shift+r"
@@ -41,6 +36,8 @@ selection_bg = "#333333"
 tab_bar_position = "bottom"
 host_cursor = "native"
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
+status_indicators = "symbols"
 
 [experimental]
 switch_ascii_input_source_in_prefix = true
