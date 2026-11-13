@@ -13,8 +13,6 @@ source "$shared/zsh/startup.zsh"
 
 autoload -U compinit && compinit
 
-command -v gdircolors >/dev/null && eval "$(gdircolors -b)"
-
 source "$brew_prefix/share/zsh-you-should-use/you-should-use.plugin.zsh"
 source "$shared/zsh/zsh-helix-mode/zsh-helix-mode.plugin.zsh"
 
