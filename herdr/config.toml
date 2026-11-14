@@ -1,7 +1,6 @@
 onboarding = false
 
 [keys]
-prefix = "ctrl+z"
 previous_tab = "alt+h"
 next_tab = "alt+l"
 previous_agent = "alt+shift+k"
@@ -15,6 +14,12 @@ focus_pane_right = "alt+shift+l"
 
 [[keys.command]]
 key = "alt+shift+r"
+type = "shell"
+command = "~/.local/bin/herdr-git-review"
+description = "review diff"
+
+[[keys.command]]
+key = "prefix+ctrl+r"
 type = "shell"
 command = "~/.local/bin/herdr-git-review"
 description = "review diff"
