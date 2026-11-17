@@ -60,6 +60,7 @@ link "$mac/zsh/.zshrc" "$HOME/.zshrc"
 link "$shared/git/config" "$HOME/.config/git/config"
 git lfs install --skip-repo >/dev/null
 link "$shared/helix" "$HOME/.config/helix"
+link "$shared/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 link "$mac/helix/hx" "$HOME/.local/bin/hx"
 for skill in "$shared"/claude/skills/*/; do
   skill="$(basename "$skill")"
