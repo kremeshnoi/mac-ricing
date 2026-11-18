@@ -75,6 +75,9 @@ link "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
 link "$mac/swiftbar/glazewm.sh" "$HOME/.config/swiftbar/glazewm.sh"
 defaults write com.ameba.SwiftBar PluginDirectory "$HOME/.config/swiftbar"
 
+bat cache --build --source "$shared/bat" >/dev/null
+echo "ok      bat cache"
+
 link "$mac/ghostty/config" "$HOME/.config/ghostty/config"
 ghostty_app="$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 if [ -f "$ghostty_app" ] && [ ! -L "$ghostty_app" ]; then
