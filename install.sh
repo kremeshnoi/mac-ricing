@@ -85,19 +85,8 @@ if [ -f "$ghostty_app" ] && [ ! -L "$ghostty_app" ]; then
   echo "backup  $ghostty_app.backup-$stamp"
 fi
 
-pgf="$HOME/.local/src/pgf"
-if [ -d "$pgf/.git" ]; then
-  git -C "$pgf" pull --ff-only --quiet
-  echo "ok      $pgf"
-else
-  git clone --quiet https://github.com/kremeshnoi/pgf "$pgf"
-  echo "clone   $pgf"
-fi
-link "$pgf/bin/pgf" "$HOME/.local/bin/pgf"
-if [ -d "$HOME/.local/share/pgf/.git" ]; then
-  rm -rf "$HOME/.local/share/pgf"
-  echo "remove  $HOME/.local/share/pgf"
-fi
+uv tool install --quiet sqlit-tui --with psycopg2-binary
+echo "ok      sqlit"
 
 unlink_stale "$HOME/.local/bin/intelephense"
 rm -rf "$HOME/.local/share/intelephense"
