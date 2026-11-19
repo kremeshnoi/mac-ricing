@@ -4,10 +4,6 @@ brew_prefix=/opt/homebrew
 [ -x "$brew_prefix/bin/brew" ] && eval "$("$brew_prefix/bin/brew" shellenv)"
 
 source "$shared/zsh/env.zsh"
-path=(
-  "$brew_prefix/opt/libpq/bin"
-  $path
-)
 
 source "$shared/zsh/startup.zsh"
 
