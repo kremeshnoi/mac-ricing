@@ -66,7 +66,7 @@ for skill in "$shared"/claude/skills/*/; do
   link "$shared/claude/skills/$skill" "$HOME/.claude/skills/$skill"
 done
 
-generate "$HOME/.config/herdr/config.toml" "$mac/herdr/config.toml" "$mac/herdr/space-colors/sidebar.toml"
+generate "$HOME/.config/herdr/config.toml" "$shared/herdr/base.toml" "$shared/herdr/keys-macos.toml" "$mac/herdr/space-colors/sidebar.toml"
 
 link "$mac/glazewm/config.yaml" "$HOME/.glzr/glazewm/config.yaml"
 link "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
