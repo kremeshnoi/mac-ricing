@@ -10,38 +10,50 @@ if [ ! -d "$shared" ]; then
   exit 1
 fi
 
-link() {
-  local source="$1" target="$2"
+manifest="$HOME/.local/state/dotfiles/copied"
+mkdir -p "$(dirname "$manifest")"
+touch "$manifest"
+
+managed() {
+  grep -qxF "$1" "$manifest" || echo "$1" >> "$manifest"
+}
+
+make_room() {
+  local target="$1"
   mkdir -p "$(dirname "$target")"
-  if [ -L "$target" ] && [ "$(readlink "$target")" = "$source" ]; then
-    echo "ok      $target"
-    return
-  fi
   if [ -L "$target" ]; then
     rm "$target"
-  elif [ -e "$target" ]; then
+  elif [ -e "$target" ] && ! grep -qxF "$target" "$manifest"; then
     mv "$target" "$target.backup-$stamp"
     echo "backup  $target.backup-$stamp"
   fi
-  ln -s "$source" "$target"
-  echo "link    $target -> $source"
+  rm -rf "$target"
+}
+
+copy() {
+  local source="$1" target="$2"
+  if [ ! -L "$target" ] && [ -e "$target" ] && diff -rq "$source" "$target" >/dev/null 2>&1; then
+    echo "ok      $target"
+    managed "$target"
+    return
+  fi
+  make_room "$target"
+  cp -R "$source" "$target"
+  managed "$target"
+  echo "copy    $target"
 }
 
 generate() {
   local target="$1"
   shift
-  mkdir -p "$(dirname "$target")"
   if [ ! -L "$target" ] && [ -f "$target" ] && cat "$@" | cmp -s - "$target"; then
     echo "ok      $target"
+    managed "$target"
     return
   fi
-  if [ -L "$target" ]; then
-    rm "$target"
-  elif [ -e "$target" ]; then
-    mv "$target" "$target.backup-$stamp"
-    echo "backup  $target.backup-$stamp"
-  fi
+  make_room "$target"
   cat "$@" > "$target"
+  managed "$target"
   echo "write   $target"
 }
 
@@ -56,27 +68,30 @@ unlink_stale() {
 
 brew bundle --file="$mac/Brewfile"
 
-link "$mac/zsh/.zshrc" "$HOME/.zshrc"
-link "$shared/git/config" "$HOME/.config/git/config"
-link "$shared/helix" "$HOME/.config/helix"
-link "$shared/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
-link "$mac/helix/hx" "$HOME/.local/bin/hx"
+zshrc_head="$(mktemp)"
+printf 'shared=%q\n' "$shared" > "$zshrc_head"
+generate "$HOME/.zshrc" "$zshrc_head" "$mac/zsh/.zshrc"
+rm -f "$zshrc_head"
+copy "$shared/git/config" "$HOME/.config/git/config"
+copy "$shared/helix" "$HOME/.config/helix"
+copy "$shared/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+copy "$mac/helix/hx" "$HOME/.local/bin/hx"
 for skill in "$shared"/claude/skills/*/; do
   skill="$(basename "$skill")"
-  link "$shared/claude/skills/$skill" "$HOME/.claude/skills/$skill"
+  copy "$shared/claude/skills/$skill" "$HOME/.claude/skills/$skill"
 done
 
 generate "$HOME/.config/herdr/config.toml" "$shared/herdr/base.toml" "$shared/herdr/keys-macos.toml" "$mac/herdr/space-colors/sidebar.toml"
 
-link "$mac/glazewm/config.yaml" "$HOME/.glzr/glazewm/config.yaml"
-link "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
-link "$mac/swiftbar/glazewm.sh" "$HOME/.config/swiftbar/glazewm.sh"
+copy "$mac/glazewm/config.yaml" "$HOME/.glzr/glazewm/config.yaml"
+copy "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
+copy "$mac/swiftbar/glazewm.sh" "$HOME/.config/swiftbar/glazewm.sh"
 defaults write com.ameba.SwiftBar PluginDirectory "$HOME/.config/swiftbar"
 
 bat cache --build --source "$shared/bat" >/dev/null
 echo "ok      bat cache"
 
-link "$mac/ghostty/config" "$HOME/.config/ghostty/config"
+copy "$mac/ghostty/config" "$HOME/.config/ghostty/config"
 ghostty_app="$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 if [ -f "$ghostty_app" ] && [ ! -L "$ghostty_app" ]; then
   mv "$ghostty_app" "$ghostty_app.backup-$stamp"

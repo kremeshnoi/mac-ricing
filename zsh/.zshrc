@@ -1,4 +1,3 @@
-shared="${${(%):-%x}:A:h:h:h}/shared"
 brew_prefix=/opt/homebrew
 
 [ -x "$brew_prefix/bin/brew" ] && eval "$("$brew_prefix/bin/brew" shellenv)"
