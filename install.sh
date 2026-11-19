@@ -67,8 +67,6 @@ for skill in "$shared"/claude/skills/*/; do
 done
 
 generate "$HOME/.config/herdr/config.toml" "$mac/herdr/config.toml" "$mac/herdr/space-colors/sidebar.toml"
-link "$shared/herdr/reviewr.toml" "$HOME/.config/herdr/plugins/config/persiyanov.reviewr/config.toml"
-link "$shared/herdr/git-review.sh" "$HOME/.local/bin/herdr-git-review"
 
 link "$mac/glazewm/config.yaml" "$HOME/.glzr/glazewm/config.yaml"
 link "$mac/glazewm/kill-workspace.sh" "$HOME/.glzr/glazewm/kill-workspace.sh"
@@ -111,16 +109,7 @@ else
 fi
 brew list --pinned | grep -qx herdr || brew pin herdr
 
-reviewr_version="$(version reviewr)"
 plugins_json="$HOME/.config/herdr/plugins.json"
-reviewr="$(jq -r '.[] | select(.plugin_id == "persiyanov.reviewr") | .source.requested_ref // "none"' "$plugins_json" 2>/dev/null || true)"
-if [ "$reviewr" = "v$reviewr_version" ]; then
-  echo "ok      herdr plugin persiyanov.reviewr v$reviewr_version"
-else
-  [ -n "$reviewr" ] && herdr plugin uninstall persiyanov.reviewr
-  herdr plugin install persiyanov/herdr-reviewr --ref "v$reviewr_version" -y
-fi
-
 for root in "$shared/herdr/workspace-tabs" "$mac/herdr/space-colors"; do
   id="$(awk -F'"' '/^id = /{print $2; exit}' "$root/herdr-plugin.toml")"
   current="$(jq -r --arg id "$id" '.[] | select(.plugin_id == $id) | "\(.source.kind) \(.plugin_root)"' "$plugins_json" 2>/dev/null || true)"
