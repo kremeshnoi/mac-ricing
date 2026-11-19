@@ -35,7 +35,7 @@ exec zsh
 
 `install.sh` needs the parent dotfiles checkout: everything that is not macOS-specific comes from `shared/` — `.zshrc` sources `shared/zsh/startup.zsh` and `shared/zsh/rc.zsh`, and git, helix, the herdr scripts and the Claude skills are linked from there. A file in the way is moved to `<name>.backup-<timestamp>`; running it again is safe. Machine-specific settings go into `~/.zshrc.local`, which is sourced early and never committed. git keeps the user name and email in `~/.gitconfig`, which overrides `~/.config/git/config`.
 
-herdr comes from Homebrew and is pinned there; `install.sh` warns when its version differs from `shared/herdr/versions.toml`, which nix-darwin and NixOS build from, and installs reviewr at the tag from the same file. On this Mac `~/.config/herdr/config.toml` is a generated copy of `herdr/config.toml` with `herdr/space-colors/sidebar.toml` appended, since herdr reads a single file; run `install.sh` again after editing either. The Mac with Nix gets `herdr/config.toml` alone, without space-colors.
+herdr comes from Homebrew and is pinned there; `install.sh` warns when its version differs from `shared/herdr/versions.toml`, which nix-darwin and NixOS build from. On this Mac `~/.config/herdr/config.toml` is a generated copy of `herdr/config.toml` with `herdr/space-colors/sidebar.toml` appended, since herdr reads a single file; run `install.sh` again after editing either. The Mac with Nix gets `herdr/config.toml` alone, without space-colors.
 
 Brewfile and the Nix package lists in dotfiles must match; `.github/scripts/packages.py` in dotfiles checks it in CI.
 
