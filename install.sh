@@ -58,7 +58,6 @@ brew bundle --file="$mac/Brewfile"
 
 link "$mac/zsh/.zshrc" "$HOME/.zshrc"
 link "$shared/git/config" "$HOME/.config/git/config"
-git lfs install --skip-repo >/dev/null
 link "$shared/helix" "$HOME/.config/helix"
 link "$mac/helix/hx" "$HOME/.local/bin/hx"
 for skill in "$shared"/claude/skills/*/; do
