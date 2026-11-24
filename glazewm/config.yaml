@@ -96,7 +96,7 @@ window_rules:
   - commands: ['set-tiling', 'move --workspace 3-term', 'focus --workspace 3-term']
     on: ['manage']
     match:
-      - window_process: { regex: '(?i)^ghostty$' }
+      - window_process: { regex: '(?i)^optimum$' }
 
   - commands: ['move --workspace 4-edge', 'focus --workspace 4-edge']
     on: ['manage']
@@ -136,7 +136,7 @@ window_rules:
   - commands: ['move --workspace 10-misc', 'focus --workspace 10-misc']
     on: ['manage']
     match:
-      - window_process: { not_regex: '(?i)^(tabularis|ghostty|microsoft edge|claude|slack|obsidian|docker desktop|finder|system settings|activity monitor|preview|calculator|disk utility|app store|archive utility|keychain access|console|font book|image capture|screenshot|textedit|system information|zebar|raycast|usernotificationcenter|scshost|logi options\+|endpointconnect|endpoint security)$' }
+      - window_process: { not_regex: '(?i)^(tabularis|optimum|microsoft edge|claude|slack|obsidian|docker desktop|finder|system settings|activity monitor|preview|calculator|disk utility|app store|archive utility|keychain access|console|font book|image capture|screenshot|textedit|system information|zebar|raycast|usernotificationcenter|scshost|logi options\+|endpointconnect|endpoint security)$' }
 
 binding_modes:
   - name: 'resize'
@@ -234,7 +234,7 @@ keybindings:
     bindings: ['lwin+ctrl+shift+v']
   - commands: ['wm-enable-binding-mode --name resize']
     bindings: ['lwin+ctrl+r']
-  - commands: ['shell-exec /usr/bin/open -na Ghostty']
+  - commands: ['shell-exec /usr/bin/open -na Optimum']
     bindings: ['lwin+enter']
   - commands: ['wm-reload-config']
     bindings: ['lwin+ctrl+shift+r']
